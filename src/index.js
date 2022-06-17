@@ -36,7 +36,7 @@ app.post('/users', (request, response) => {
     id: uuidv4(),
     name,
     username,
-    todos: [],  
+    todos: [],
   }
   users.push(user);
 
@@ -49,7 +49,7 @@ app.get('/todos', checksExistsUserAccount, (request, response) => {
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
-  const user = request;
+  const { user } = request;
   const { title, deadline } = request.body;
 
   const todo = {
