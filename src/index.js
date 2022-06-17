@@ -4,19 +4,15 @@ const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
-const users = [];
-
 app.use(cors());
 app.use(express.json());
 
-// const users = [];
+const users = [];
 
 function checksExistsUserAccount(request, response, next) {
    const { username } = request.headers;
 
-    const user = users.find(
-        user => user.username === username
-    );
+    const user = users.find(user => user.username === username);
 
     if (!user){
         return response.status(404).json({error: "User not found"});
@@ -40,16 +36,16 @@ app.post('/users', (request, response) => {
     id: uuidv4(),
     name,
     username,
-    todos: []  
+    todos: [],  
   }
   users.push(user);
 
-  return response.json(user);
+  return response.status(201).json(user);
 });
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
   const { user } = request;
-  return response.status(201).json(user.todos);
+  return response.json(user.todos);
 });
 
 app.post('/todos', checksExistsUserAccount, (request, response) => {
